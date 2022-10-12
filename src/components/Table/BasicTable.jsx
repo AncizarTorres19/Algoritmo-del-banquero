@@ -3,11 +3,15 @@ import { DataGrid } from '@mui/x-data-grid';
 import { GRID_DEFAULT_LOCALE_TEXT } from '../../utils/localeTextConstants';
 import { Box } from '@mui/material';
 
-export default function BasicTable({ columns, rows }) {
+export default function BasicTable({ columns, rows, setData, tittle }) {
 
   const [selectionModel, setSelectionModel] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [rowsD, setRowsD] = useState(rows);
+
+  useEffect(() => {
+    setRowsD(rows)
+  }, [rows]);
 
   useEffect(() => {
     if (selectionModel.length > 0) {
@@ -22,6 +26,20 @@ export default function BasicTable({ columns, rows }) {
       }));
     }
   }, [selectionModel]);
+
+  useEffect(() => {
+    if (selectionModel.length > 0) {
+      setData(prev => (prev.map((item) => {
+        if (item.id === rowsD[0].item) {
+          return {
+            ...item,
+            rows: rowsD
+          };
+        }
+        return item;
+      })));
+    }
+  }, [rowsD]);
 
 
   return (
@@ -43,8 +61,10 @@ export default function BasicTable({ columns, rows }) {
         pageSize={pageSize}
         getRowId={(row) => row.id}
         onCellEditCommit={(item) => {
+          console.log('entre');
           setSelectionModel([item]);
         }}
+        selectionModel={selectionModel}
       />
     </Box>
   );
