@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { GRID_DEFAULT_LOCALE_TEXT } from '../../utils/localeTextConstants';
 import { Box } from '@mui/material';
 
-export default function BasicTable({ columns, rows, setData, tittle }) {
+export default function BasicTable({ columns, rows, setData }) {
 
   const [selectionModel, setSelectionModel] = useState([]);
   const [pageSize, setPageSize] = useState(10);
