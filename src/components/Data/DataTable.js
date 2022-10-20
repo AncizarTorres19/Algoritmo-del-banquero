@@ -70,42 +70,48 @@ export const dataMap = [
     {
         rows: rowsC,
         columns: columnsC,
-        xs: 5,
+        xs: 12,
+        md: 5,
         tittle: 'Solicitados',
         id: 0
     },
     {
         rows: rowsA,
         columns: columnsA,
-        xs: 5,
+        xs: 12,
+        md: 5,
         tittle: 'Asignados',
         id: 1
     },
     {
         rows: rowsDisponibles,
         columns: columnsDisponibles,
-        xs: 3,
+        xs: 12,
+        md: 3,
         tittle: 'Disponibles',
         id: 2
     },
     {
         rows: rowsMax,
         columns: columnsMax,
-        xs: 3,
+        xs: 12,
+        md: 3,
         tittle: 'Máximo',
         id: 4
     },
     {
         rows: rowsR, // Repuesta
         columns: columnsR, // Repuesta
-        xs: 5,
+        xs: 12,
+        md: 5,
         tittle: 'Respuesta',
         id: 3
     },
     {
         rows: rowsCA, // C-A
         columns: columnsCA, // C-A
-        xs: 5,
+        xs: 12,
+        md: 5,
         tittle: 'C-A',
         id: 3
     },

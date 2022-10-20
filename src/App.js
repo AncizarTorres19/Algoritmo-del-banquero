@@ -1,27 +1,32 @@
 import { useState } from 'react';
 //CSS
-import { Grid, Button } from '@mui/material';
+import { Grid } from '@mui/material';
 //Components
 import { dataMap as arrayTotal, rowsDisponibles, rowsCA, rowsA, rowsC } from './components/Data/DataTable';
 import BasicCard from "./components/Card/BasicCard";
 import BasicTable from "./components/Table/BasicTable";
 import Spinner from './components/Spinner/Spinner';
+import Buttons from './components/Buttons/Buttons';
 
 function App() {
   const [data, setData] = useState(arrayTotal);
   const [rowDisponibles, setRowsDisponibles] = useState(rowsDisponibles);
+  const [resetdata, setResetdata] = useState(arrayTotal);
+  const [resetDisponibles, setResetDisponibles] = useState(rowsDisponibles);
   const [spinner, setSpinner] = useState(false);
 
   const proceso = async () => {
-
-    //Activamos el Spinner
-    setSpinner(true);
 
     //Creamos una copia de el resultado C-A
     let copyRowCA = [...rowsCA]
 
     // Comparamos el disponible con la copia de C-A fila por fila
     for (let i = 0; i < copyRowCA.length; i++) {
+
+      //Activamos el Spinner
+      setSpinner(true);
+
+
       //Creamos una copia del disponible
       let copyDisponible = [...rowDisponibles];
 
@@ -40,7 +45,6 @@ function App() {
         } else {
           // si es False, rompemos el for
           flag = false
-          setSpinner(flag);
           break;
         }
       }
@@ -55,24 +59,31 @@ function App() {
 
         //Actualizamos la copia de Respuesta con la tabla de solicitados
         copyRespuesta[copyRowCA[i].id - 1] = rowsC[copyRowCA[i].id - 1];
-        console.log(copyRespuesta);
 
         //Copia de todo en General
         let copyDataMap = [...data];
         copyDataMap[2].rows = rowDisponibles;
-        copyDataMap[4].rows = copyRespuesta
+        copyDataMap[4].rows = copyRespuesta;
         // Actualizamos la tabla de disponibles y la de Respuesta
         setData(copyDataMap);
 
         //Eliminamos la posicion completada y reseteamos el recorrido del for
         copyRowCA.length > 0 && copyRowCA.splice(i, 1);
+
+        //Desactivamos el Spinner
+        setSpinner(false);
         i = -1;
       }
     }
   }
 
+  const reset = () => {
+    //Refrescamos el la pagina en el navegador (F5)
+    window.location.reload()
+  }
+
   const intervalo = async () => {
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       setTimeout(() => {
         resolve('Tiempo de Espera');
       }, 3000);
@@ -90,15 +101,9 @@ function App() {
         justifyContent="space-evenly"
         sx={{ maxWidth: '100%', p: 1 }}
       >
-        <Grid item xs={12}>
-          <Button fullWidth variant="contained" color="success"
-            onClick={() => proceso()}
-          >
-            Ejecutar
-          </Button>
-        </Grid>
-        {data.map(({ rows, columns, xs, tittle }, index) => (
-          <Grid item xs={xs} key={index}>
+        <Buttons proceso={proceso} reset={reset} />
+        {data.map(({ rows, columns, xs, md, tittle }, index) => (
+          <Grid item xs={xs} md={md} key={index}>
             <BasicCard title={tittle}>
               <BasicTable
                 setData={setData}
